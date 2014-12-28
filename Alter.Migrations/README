@@ -1,0 +1,4 @@
+﻿Don't use 0 as a version - this is a special case that indicates a database error
+You can only go forward
+Differentials are not automatic - you must manually check that the differentials are equivalent
+

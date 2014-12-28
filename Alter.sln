@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alter.Migrations", "Alter.Migrations\Alter.Migrations.csproj", "{4CA11274-26DF-4D43-827D-D5436FD62720}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alter.Tests", "Alter.Tests\Alter.Tests.csproj", "{CABC53FA-09F4-448B-BCD4-D402CD4AF257}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alter.Example", "Alter.Example\Alter.Example.csproj", "{7002FE17-C4C2-4F53-98FA-17C818763D63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alter.SchemaTools", "Alter.SchemaTools\Alter.SchemaTools.csproj", "{9B8C5A7A-CDD7-4B95-B3A1-1DFE6C47F03E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4CA11274-26DF-4D43-827D-D5436FD62720}.Debug|x86.ActiveCfg = Debug|x86
+		{4CA11274-26DF-4D43-827D-D5436FD62720}.Debug|x86.Build.0 = Debug|x86
+		{4CA11274-26DF-4D43-827D-D5436FD62720}.Release|x86.ActiveCfg = Release|x86
+		{4CA11274-26DF-4D43-827D-D5436FD62720}.Release|x86.Build.0 = Release|x86
+		{7002FE17-C4C2-4F53-98FA-17C818763D63}.Debug|x86.ActiveCfg = Debug|x86
+		{7002FE17-C4C2-4F53-98FA-17C818763D63}.Debug|x86.Build.0 = Debug|x86
+		{7002FE17-C4C2-4F53-98FA-17C818763D63}.Release|x86.ActiveCfg = Release|x86
+		{7002FE17-C4C2-4F53-98FA-17C818763D63}.Release|x86.Build.0 = Release|x86
+		{9B8C5A7A-CDD7-4B95-B3A1-1DFE6C47F03E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9B8C5A7A-CDD7-4B95-B3A1-1DFE6C47F03E}.Debug|x86.Build.0 = Debug|Any CPU
+		{9B8C5A7A-CDD7-4B95-B3A1-1DFE6C47F03E}.Release|x86.ActiveCfg = Release|Any CPU
+		{9B8C5A7A-CDD7-4B95-B3A1-1DFE6C47F03E}.Release|x86.Build.0 = Release|Any CPU
+		{CABC53FA-09F4-448B-BCD4-D402CD4AF257}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CABC53FA-09F4-448B-BCD4-D402CD4AF257}.Debug|x86.Build.0 = Debug|Any CPU
+		{CABC53FA-09F4-448B-BCD4-D402CD4AF257}.Release|x86.ActiveCfg = Release|Any CPU
+		{CABC53FA-09F4-448B-BCD4-D402CD4AF257}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Alter.Tests\Alter.Tests.csproj
+	EndGlobalSection
+EndGlobal

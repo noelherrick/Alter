@@ -1,0 +1,3 @@
+﻿
+
+Check to make sure that if a incr series is applied and a target diff that's equivalent is asked for, that no further updates are applied
