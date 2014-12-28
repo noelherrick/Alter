@@ -1,72 +1,33 @@
-Basic features
-
-The idea behind this project is to create a set of software to easily allow a database to be added to a project without creating an unmanageable behemoth that is a pain to update and a terror to get a testing / development environment started.
-
-Conventions
-You don't have to use the tool for everything - although it is simple to do so. You can build your own tools and use the following conventions.
-SchemaMigrations
-*.sql for SQL-based migrations
-_DIFF_ in the name for migrations
-_BASELINE_ in the name for baselines
-
-SQL-Based Migration
-
-A migration is a change to a database schema. The basic unit is the migration, but there are multiple ways to accomplish the migration. The first type is simply an incremental change.
-
-1) Incremental
-2) Differential
-
-SQL-Base Baseline [Phase 2]
-
-You can also take a snapshot of the database. When you take a snapshot, it is added to the migrations folder, but it is marked as a baseline. This means it will not run on databases that already have migrations applied.
-
-C#-based Migrations [Phase 3]
-
-
-Command-line tool
-
-The command-line tool is simply the front-end to the library. It allows you to manually or via scripts accomplish what you could do with the library.
-
-Library
-
-The Library enables you to write your own front-end, hook into your application initialization, application update logic, or as part of an admin for your application.
-
-All errors are hopefully MigrationExceptions
-
 TODO
-Phase 1a - Library & API
-Create git project (with .gitignore)
-Upload to bitbucket
-
-
 Phase 1b - Command-line front-end
+Use dependency injection for getting the right database adapter
 Create a help command
 Create a version command (at version 0.1)
 Create a new incr migration file
 Create a new diff migration file
 Create a new baseline
-See migrations to apply
-Use dependancy injection for getting the right database
-See sql for migrations to apply
+See ID of migrations to apply
+See SQL of migrations to apply
 Apply migrations (w/ verbose option)
 See history of migrations
+Gets the status of the database
 
 Phase 1c - Public release
+Rework README's
 Make a library / create nuget package
-Add a license
-Research licenses for all libraries
-Add a readme
 Create a web site
 
 Phase 2 - Generisizing
 Create generic ADO.NET adapter
-Add logic to check if DDL is transactional
+Add logic to check for the current RDBMS DDL is transactional
 Add MySQL adapter
 Add MS SQL adapter
 Add Oracle adapter
+Add SQLite adapter
 Bump version to 0.2
 
 Phase 3 - Powertools
+Add logging throughout the tool
 Figure out how to do environment-specific migrations
 Automatically create diff migrations
 Check diff migrations for equivalence

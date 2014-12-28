@@ -11,6 +11,9 @@ using System.Data;
 
 namespace Alter.Migrations
 {
+	/// <summary>
+	/// The Migrator class wrapps all the corenfunctionality of Alter.
+	/// </summary>
 	public class Migrator : IDisposable
 	{
 		/// <summary>
@@ -24,6 +27,11 @@ namespace Alter.Migrations
 		/// The name of the folder that will contain the migrations.
 		/// </summary>
 		public static readonly string MIGRATIONS_FOLDER = "SchemaMigrations/";
+
+		/// <summary>
+		/// The Alter API version. Uses semantic versioning.
+		/// </summary>
+		public static readonly string ALTER_API_VERSION = "0.1.1";
 		private readonly string UNINITIALIZED_VERSION_ID = "0";
 		private DatabaseAdapter db;
 
@@ -283,7 +291,7 @@ namespace Alter.Migrations
 
 					log += db.InfoMessage;
 
-					var @event = new MigrationEvent(){ Id=mig.Id, log = log, Time = timeTaken.Milliseconds, DateApplied = DateTime.Now };
+					var @event = new MigrationEvent(){ Id=mig.Id, Log = log, Time = timeTaken.Milliseconds, DateApplied = DateTime.Now };
 
 					db.Connection.Execute ("insert into " + MIGRATION_TABLE + " (id, Date_applied, log, time_taken) values (@id, NOW(), @log, @time)", @event);
 

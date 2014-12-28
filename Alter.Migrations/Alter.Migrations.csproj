@@ -42,14 +42,8 @@
     <Reference Include="Npgsql">
       <HintPath>..\packages\Npgsql.2.2.3\lib\net45\Npgsql.dll</HintPath>
     </Reference>
-    <Reference Include="DatabaseSchemaReader">
-      <HintPath>..\packages\DatabaseSchemaReader.1.3.7.0\lib\net40\DatabaseSchemaReader.dll</HintPath>
-    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Transactions" />
-    <Reference Include="CommandLine">
-      <HintPath>..\packages\CommandLineParser.1.9.71\lib\net45\CommandLine.dll</HintPath>
-    </Reference>
     <Reference Include="System.Data.SQLite">
       <HintPath>..\packages\System.Data.SQLite.Core.MSIL.1.0.94.0\lib\net45\System.Data.SQLite.dll</HintPath>
     </Reference>
@@ -65,12 +59,14 @@
     <Compile Include="Adapters\AdoNetAdapter.cs" />
     <Compile Include="Adapters\PostgresAdapter.cs" />
     <Compile Include="Adapters\ConsoleAdapter.cs" />
+    <Compile Include="MigrationType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="THOUGHTS" />
     <None Include="packages.config" />
     <None Include="README" />
+    <None Include="LICENSE" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Adapters\" />

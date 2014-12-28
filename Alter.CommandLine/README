@@ -1,0 +1,13 @@
+﻿
+Universal flags
+-v means verbose
+-u means user
+-p means password
+-h means host
+-p means port
+
+Commands
+add - adds a migration. Takes --incr, --diff, and --baseline Defaults to --incr. Takes a description
+available
+status - gets the status of the database
+history - gets the history of the database
