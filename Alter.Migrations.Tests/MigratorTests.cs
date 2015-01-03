@@ -11,7 +11,7 @@ using Npgsql;
 using NUnit.Framework;
 
 
-namespace Alter.Tests
+namespace Alter.Migrations.Tests
 {
 	[TestFixture ()]
 	public class MigratorTests

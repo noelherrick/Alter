@@ -5,8 +5,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{CABC53FA-09F4-448B-BCD4-D402CD4AF257}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Alter.Tests</RootNamespace>
-    <AssemblyName>Alter.Tests</AssemblyName>
+    <RootNamespace>Alter.Migrations.Tests</RootNamespace>
+    <AssemblyName>Alter.Migrations.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>

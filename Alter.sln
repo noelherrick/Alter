@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alter.Migrations", "Alter.Migrations\Alter.Migrations.csproj", "{4CA11274-26DF-4D43-827D-D5436FD62720}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alter.Migrations.Tests", "Alter.Tests\Alter.Migrations.Tests.csproj", "{CABC53FA-09F4-448B-BCD4-D402CD4AF257}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alter.Migrations.Tests", "Alter.Migrations.Tests\Alter.Migrations.Tests.csproj", "{CABC53FA-09F4-448B-BCD4-D402CD4AF257}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Alter.Example", "Alter.Example\Alter.Example.csproj", "{7002FE17-C4C2-4F53-98FA-17C818763D63}"
 EndProject
