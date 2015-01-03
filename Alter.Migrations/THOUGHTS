@@ -1,30 +1,24 @@
 TODO
 Phase 1b - Command-line front-end
-Use dependency injection for getting the right database adapter
-Create a help command
-Create a version command (at version 0.1)
-Create a new incr migration file
-Create a new diff migration file
-Create a new baseline
-See ID of migrations to apply
-See SQL of migrations to apply
-Apply migrations (w/ verbose option)
-See history of migrations
-Gets the status of the database
+Move tests around
+Delete copied config file on program exiting
+Use annotations instead of dictionary in controller for methods
 
 Phase 1c - Public release
 Rework README's
-Make a library / create nuget package
 Create a web site
+Create nuget package
 
-Phase 2 - Generisizing
-Create generic ADO.NET adapter
-Add logic to check for the current RDBMS DDL is transactional
+Phase 2a - Generisizing - Open Source
+Add logic to check if for the current RDBMS DDL is transactional
 Add MySQL adapter
-Add MS SQL adapter
-Add Oracle adapter
 Add SQLite adapter
 Bump version to 0.2
+
+Phase 2b - Generisizing - Closed Source
+Add MS SQL adapter
+Add Oracle adapter
+Bump version to 0.3
 
 Phase 3 - Powertools
 Add logging throughout the tool
@@ -40,11 +34,27 @@ Text messages from server don't get returned
 Schema migrations need to be copied to bin folder
 Lazily load text file SQL since we don't need the SQL at first, only the name
 SchemaMigration folder has a trailing slash
+Logging needs to be worked into the migration library
 
 POSSIBILITIES
 Combine Entity framework connection string
 
 DONE
+Write tests for command line
+Create generic ADO.NET adapter
+Allow front-end to take .config files
+Apply migrations (w/ verbose option)
+See ID of migrations to apply
+See SQL of migrations to apply
+See history of migrations
+Gets the status of the database
+Use dependency injection for getting the right database adapter
+Create a dispatching front-end
+Create a help command
+Create a version command (at version 0.1)
+Create a new incr migration file
+Create a new diff migration file
+Create a new baseline
 Add API documentation
 Reorganize project
 Test suite for all functionality

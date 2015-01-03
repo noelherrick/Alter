@@ -7,6 +7,12 @@ namespace Alter.Migrations
 {
 	public class ConsoleAdapter : DatabaseAdapter
 	{
+		public bool NeedsConnection {
+			get {
+				return false;
+			}
+		}
+
 		public string InfoMessage {
 			get {
 				throw new NotImplementedException ();

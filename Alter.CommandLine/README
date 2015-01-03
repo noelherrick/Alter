@@ -1,13 +1,15 @@
 ﻿
 Universal flags
 -v means verbose
--u means user
--p means password
 -h means host
 -p means port
+-d means database
+-u means user
+-W means password
 
 Commands
+version - prints the version number
 add - adds a migration. Takes --incr, --diff, and --baseline Defaults to --incr. Takes a description
-available
+available - shows the available migrations
 status - gets the status of the database
 history - gets the history of the database

@@ -8,6 +8,7 @@ namespace Alter.Migrations
 	{
 
 		DbConnection Connection { get; }
+		bool NeedsConnection { get; }
 		DbCommand BuildCommand ();
 		string GetNativeBaseline ();
 		string InfoMessage { get; }

@@ -60,13 +60,13 @@
     <Compile Include="Adapters\PostgresAdapter.cs" />
     <Compile Include="Adapters\ConsoleAdapter.cs" />
     <Compile Include="MigrationType.cs" />
+    <Compile Include="Adapters\ConnectionProperties.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <None Include="THOUGHTS" />
     <None Include="packages.config" />
     <None Include="README" />
-    <None Include="LICENSE" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Adapters\" />

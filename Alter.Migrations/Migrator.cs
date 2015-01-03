@@ -43,12 +43,41 @@ namespace Alter.Migrations
 		{
 			this.db = db;
 
-			if (db.Connection.State == ConnectionState.Closed) {
+			if (db.NeedsConnection && db.Connection.State == ConnectionState.Closed) {
 				try {
 					db.Connection.Open ();
 				} catch (Exception e) {
 					throw new Exception ("Could not open a connection to the database. See inner exception for more details.", e);
 				}
+			}
+		}
+
+		public Migrator ( ConnectionProperties properties)
+			: this(GetAdapter(properties)) {
+
+		}
+
+		private static DatabaseAdapter GetAdapter (ConnectionProperties properties) {
+			var adapterType = properties.Engine;
+
+			if (adapterType == "postgres") {
+
+				var connectionString = properties.ConnectionString != null ?
+					properties.ConnectionString :
+					PostgresAdapter.BuildConnectionString (properties);
+
+				var adapter = new PostgresAdapter (connectionString);
+				return (adapter);
+			} else if (adapterType == "sqlserver") {
+				throw new NotImplementedException ("The sqlserver adapter is not implemented.");
+			} else if (adapterType == "oracle") {
+				throw new NotImplementedException ("The oracle adapter is not implemented.");
+			} else if (adapterType == "sqlite") {
+				throw new NotImplementedException ("The sqlite adapter is not implemented.");
+			} else if (adapterType == "mysql") {
+				throw new NotImplementedException ("The mysql adapter is not implemented.");
+			} else {
+				throw new MigrationException ("No adapter named " + adapterType + " was found.", null);
 			}
 		}
 
@@ -135,11 +164,27 @@ namespace Alter.Migrations
 		/// <returns>The generated ID of the migration.</returns>
 		/// <param name="description">The description of the migration.</param>
 		/// <param name="sql">The SQL to perform the migration (Optional).</param>
-		public string AddSqlMigration (string description, string sql = "")
+		public string AddSqlMigration (string description, string sql = "", MigrationType type = MigrationType.INCREMENTAL)
 		{
 			long millis = DateTime.Now.Ticks;
 
-			var id = string.Format ("{0}_{1}", millis, description);
+			var tag = "";
+
+			if (description.IndexOf("DIFF") != -1) {
+				throw new MigrationException ("The migration description cannot contain DIFF.", null);
+			}
+
+			if (description.IndexOf("BASELINE") != -1) {
+				throw new MigrationException ("The migration description cannot contain BASELINE.", null);
+			}
+
+			if (type.Equals(MigrationType.DIFFERENTIAL)) {
+				tag = "_DIFF";
+			} else if (type.Equals(MigrationType.BASELINE)){
+				tag = "_BASELINE";
+			}
+
+			var id = string.Format ("{0}{1}_{2}", millis, tag, description);
 			var path = MIGRATIONS_FOLDER+id+".sql";
 
 			try {

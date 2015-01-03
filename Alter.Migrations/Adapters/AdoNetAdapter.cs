@@ -5,6 +5,12 @@ namespace Alter.Migrations
 {
 	public class AdoNetAdapter : DatabaseAdapter
 	{
+		public bool NeedsConnection {
+			get {
+				return true;
+			}
+		}
+
 		private DbConnection db;
 
 		public AdoNetAdapter (DbConnection db)

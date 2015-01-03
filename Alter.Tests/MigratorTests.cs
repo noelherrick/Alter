@@ -1,12 +1,15 @@
-﻿using NUnit.Framework;
-using System;
-using Alter.Migrations;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using Npgsql;
 using System.Data.Common;
-using Dapper;
+using System.IO;
 using System.Linq;
+
+using Alter.Migrations;
+
+using Dapper;
+using Npgsql;
+using NUnit.Framework;
+
 
 namespace Alter.Tests
 {
@@ -31,10 +34,10 @@ namespace Alter.Tests
 
 			migrations.Add(migrator.AddSqlMigration ("One", "Create table one (a int);"));
 			migrations.Add(migrator.AddSqlMigration ("Two", "Alter table one add column b int;"));
-			migrations.Add(migrator.AddSqlMigration ("DIFF_Three", "Create table one (a int);\nalter table one add column b int;"));
-			migrations.Add(migrator.AddSqlMigration ("BASELINE_Four", "Create table one (a int, b int);"));
+			migrations.Add(migrator.AddSqlMigration ("Three", "Create table one (a int);\nalter table one add column b int;", MigrationType.DIFFERENTIAL));
+			migrations.Add(migrator.AddSqlMigration ("Four", "Create table one (a int, b int);", MigrationType.BASELINE));
 			migrations.Add(migrator.AddSqlMigration ("Five", "Alter table one add column c int;"));
-			migrations.Add(migrator.AddSqlMigration ("DIFF_Six", "Alter table one add column c int;"));
+			migrations.Add(migrator.AddSqlMigration ("Six", "Alter table one add column c int;", MigrationType.DIFFERENTIAL));
 		}
 
 		[TestFixtureTearDown]
@@ -271,6 +274,23 @@ namespace Alter.Tests
 			migrations.Add(migrator.AddSqlMigration ("Seven", "select * from one"));
 
 			Assert.AreEqual (7, Directory.EnumerateFiles (Migrator.MIGRATIONS_FOLDER).Count());
+		}
+
+
+		[Test()]
+		public void AddSqlMigrationWithDIFFInNameFails ()
+		{
+			Assert.Throws(typeof(MigrationException), () => 
+				migrations.Add(migrator.AddSqlMigration ("DIFF_Seven", "select * from one"))
+			);
+		}
+
+		[Test()]
+		public void AddSqlMigrationWithBASELINEInNameFails ()
+		{
+			Assert.Throws(typeof(MigrationException), () => 
+				migrations.Add(migrator.AddSqlMigration ("BASELINE_Seven", "select * from one"))
+			);
 		}
 
 		[Test()]

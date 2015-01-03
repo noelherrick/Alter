@@ -66,6 +66,5 @@
     </None>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="LICENSE" />
   </ItemGroup>
 </Project>

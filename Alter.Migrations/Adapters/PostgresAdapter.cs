@@ -6,7 +6,20 @@ namespace Alter.Migrations
 {
 	public class PostgresAdapter : DatabaseAdapter
 	{
+		public bool NeedsConnection {
+			get {
+				return true;
+			}
+		}
+
+		private NpgsqlConnection connection;
 		private string log = "";
+
+		public PostgresAdapter (string connectionString)
+		{
+			connection = new NpgsqlConnection (connectionString);
+		}
+
 		public string InfoMessage {
 			get {return log; }
 		}
@@ -14,13 +27,6 @@ namespace Alter.Migrations
 		public DbCommand BuildCommand ()
 		{
 			return new NpgsqlCommand();
-		}
-
-		private NpgsqlConnection connection;
-
-		public PostgresAdapter (string connectionString)
-		{
-			connection = new NpgsqlConnection (connectionString);
 		}
 
 		public DbConnection Connection
@@ -31,6 +37,15 @@ namespace Alter.Migrations
 		public string GetNativeBaseline ()
 		{
 			throw new NotImplementedException ();
+		}
+
+		public static string BuildConnectionString (ConnectionProperties properties)
+		{
+			var p = properties;
+
+			p.Port = p.Port == string.Empty ? "5432" : p.Port;
+
+			return string.Format("Server={0};Port={1};Database={2};User Id={3};Password={4};", p.Server, p.Port, p.Database, p.Username, p.Password);
 		}
 	}
 }

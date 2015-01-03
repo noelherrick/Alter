@@ -1,52 +1,69 @@
 ﻿using System;
-using CommandLine.Text;
-using System.Collections.Generic;
+using System.IO;
 using Alter.Migrations;
+using System.Linq;
+using System.Configuration;
 
 namespace Alter.CommandLine
 {
 	public class Program
 	{
-		private delegate string Command (IDictionary<string, string> args);
+		public static TextWriter ErrorWriter = Console.Error;
+		public static TextWriter OutWriter = Console.Out;
 
-		public static void Main (string[] args)
-		{
-			Console.WriteLine ("Hello World!");
-		}
-	}
-
-	public class CommandTool
-	{
-		private static readonly string TOOL_NAME = "Alter Command Line Tool";
-		private static readonly string VERSION_ID = "0.1.1";
-		private static readonly string SUMMARY =
-		@"The Alter tool uses simple SQL files to keep your database schema in sync with your application.
-		You write migration files and then Alter applies them to the database, keeping track of which
-		migrations have already been applied.";
-		private static readonly string EXAMPLES = @"";
-
-		public string Version (IDictionary<string, string> args) {
-			return TOOL_NAME + " (" + VERSION_ID + ")";
-		}
-
-		public string Help (IDictionary<string, string> args) {
-			return TOOL_NAME + " (" + VERSION_ID + ")\n" + SUMMARY + EXAMPLES;
-		}
-
-		public string Add (IDictionary<string, string> args) {
-			var migrator = new Migrator ();
-
-			var migrationType = MigrationType.INCREMENTAL;
-
-			if (args.ContainsKey ("--diff")) {
-				migrationType = MigrationType.DIFFERENTIAL;
-			} else if (args.ContainsKey ("--baseline")) {
-				migrationType = MigrationType.BASELINE;
+		private static void errorPrinter (Exception exp, bool verbose) {
+			ErrorWriter.WriteLine (exp.Message);
+			if (exp.InnerException != null) {
+				errorPrinter (exp.InnerException, verbose);
 			}
 
-			migrator.AddSqlMigration (args ["--id"], args ["--sql"]);
+			if (verbose) {
+				ErrorWriter.WriteLine (exp.StackTrace);
+			}
+		}
 
-			return "";
+		public static int Main (string[] args)
+		{
+			bool verbose = args.Contains ("-v");
+
+			ConnectionProperties connProps = null;
+
+			if (File.Exists("app.config")) {
+				File.Copy ("app.config", "alter.exe.config", true);
+
+				var appSettings = ConfigurationManager.AppSettings;
+
+				string connString = appSettings ["AlterConnection"];
+				string connEngine = appSettings ["AlterConnectionEngine"];
+
+				if (connString != string.Empty) {
+					connProps = new ConnectionProperties() {ConnectionString = connString, Engine = connEngine};
+				}
+			}
+
+			try {
+				var controller = new Controller();
+
+				Controller.SetCommandLineWriter(ErrorWriter);
+
+				var result = controller.Dispatch(args, connProps);
+
+				OutWriter.Write(result);
+
+				return 0;
+			} catch (UserInputException e) {
+				ErrorWriter.WriteLine (e.Message);
+				OutWriter.WriteLine (Controller.Help(args, null));
+				return 1;
+			} catch (MigrationException e) {
+				ErrorWriter.WriteLine ("There was a migration exception. This could be caused by a problem with your client or server.");
+				errorPrinter (e, verbose);
+				return 2;
+			} catch (Exception e) {
+				ErrorWriter.WriteLine ("There was an uncaught exception. This could be caused by a problem with your client, server, or the code.");
+				errorPrinter (e, verbose);
+				return 3;
+			}
 		}
 	}
 }
