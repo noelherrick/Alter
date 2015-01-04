@@ -48,9 +48,9 @@ namespace Alter.CommandLine
 
 		public delegate string  CommandAction (string[] args, ConnectionProperties connectionProperties);
 
-		public class Command
+		public class CommandMetadata
 		{
-			public Command (CommandAction action, string summary, bool connectionNeeded = false)
+			public CommandMetadata (CommandAction action, string summary, bool connectionNeeded = false)
 			{
 				Action = action;
 				Summary = summary;
@@ -77,15 +77,17 @@ namespace Alter.CommandLine
 			return commandStrings;
 		}
 
-		public readonly static IDictionary<string, Command> Commands = new Dictionary<string, Command> {
-			{"help" , new Command(Help, "gets the options for this tool")},
-			{"version" , new Command(Version, "prints the version of the tool")},
-			{"add" , new Command(Add, "adds a new migration")},
-			{"status" , new Command(Status, "gets the status of the target database", true)},
-			{"history" , new Command(History, "shows the migration events for the target database", true)},
-			{"dryrun" , new Command(Dryrun, "shows the migrations available to apply", true)},
-			{"migrate" , new Command(Migrate, "performs migrations on the target database", true)},
-		};
+		private static ConnectionProperties buildConnProps (ConnectionOptions opts) {
+			return new ConnectionProperties () {
+				Server = opts.Host,
+				Port = opts.Port,
+				Database = opts.Database,
+				Username = opts.User,
+				Password = opts.Password
+			};
+		}
+			
+		public readonly static IDictionary<string, CommandMetadata> Commands = GetCommands ();
 
 		private static ConnectionProperties extractConnectionProperties (string[] args) {
 			var opts = getOptions<ConnectionOptions> (args);
@@ -100,6 +102,25 @@ namespace Alter.CommandLine
 			};
 		}
 
+		private static IDictionary<string, CommandMetadata> GetCommands () {
+			var methods = typeof(Controller).GetMethods().Where(m => m.GetCustomAttributes(typeof(Command), false).Length > 0);
+
+			var methodDict = new Dictionary<string, CommandMetadata>();
+
+			methods.ToList().ForEach(
+				x => { 
+
+					methodDict.Add(x.Name.ToLower(),
+					new CommandMetadata(
+					x.CreateDelegate(typeof(CommandAction)) as CommandAction,
+					(Attribute.GetCustomAttribute(x, typeof(CommandDescription), false) as CommandDescription).Description,
+					x.GetCustomAttributes(typeof(NeedsConnection), false).Length > 0)
+					);}
+			);
+
+			return methodDict;
+		}
+
 		private static T getOptions<T> (string[] args) where T : new() {
 			var options = new T ();
 
@@ -107,19 +128,25 @@ namespace Alter.CommandLine
 
 			return options;
 		}
-			
+
+		[Command()]
+		[CommandDescription("prints the version of the tool")]
 		public static string Version (string[] args, ConnectionProperties connectionProperties) {
 			var asm = System.Reflection.Assembly.GetExecutingAssembly ();
 
 			return asm.GetName().Name + " (" + asm.GetName().Version.ToString() + ")";
 		}
 
+		[Command()]
+		[CommandDescription("gets the options for this tool")]
 		public static string Help (string[] args, ConnectionProperties connectionProperties) {
 			var opts = new DefaultOptions ();
 
 			return opts.GetUsage ();
 		}
-			
+
+		[Command()]
+		[CommandDescription("adds a new migration")]
 		public static string Add (string[] args, ConnectionProperties connectionProperties) {
 			var opts = getOptions<AddOptions> (args);
 
@@ -140,22 +167,19 @@ namespace Alter.CommandLine
 			return migrator.AddSqlMigration (opts.Id, opts.Sql, migrationType);
 		}
 
-		private static ConnectionProperties buildConnProps (ConnectionOptions opts) {
-			return new ConnectionProperties () {
-				Server = opts.Host,
-				Port = opts.Port,
-				Database = opts.Database,
-				Username = opts.User,
-				Password = opts.Password
-			};
-		}
 
+		[Command()]
+		[CommandDescription("gets the status of the target database")]
+		[NeedsConnection()]
 		public static string Status (string[] args, ConnectionProperties connectionProperties) {
 			var migrator = new Migrator (connectionProperties);
 
 			return migrator.GetDatabaseVersion ();
 		}
 
+		[Command()]
+		[CommandDescription("shows the migration events for the target database")]
+		[NeedsConnection()]
 		public static string History (string[] args, ConnectionProperties connectionProperties) {
 			var opts = getOptions<HistoryOptions> (args);
 
@@ -184,6 +208,9 @@ namespace Alter.CommandLine
 			return sb.ToString();
 		}
 
+		[Command()]
+		[CommandDescription("shows the migrations available to apply")]
+		[NeedsConnection()]
 		public static string Dryrun (string[] args, ConnectionProperties connectionProperties) {
 			var opts = getOptions<DryrunOptions> (args);
 
@@ -208,6 +235,9 @@ namespace Alter.CommandLine
 			return sb.ToString();
 		}
 
+		[Command()]
+		[CommandDescription("performs migrations on the target database")]
+		[NeedsConnection()]
 		public static string Migrate (string[] args, ConnectionProperties connectionProperties) {
 			var opts = getOptions<MigrateOptions> (args);
 
@@ -216,6 +246,27 @@ namespace Alter.CommandLine
 			migrator.Migrate(opts.TargetId?? "");
 
 			return "";
+		}
+	}
+
+	[AttributeUsage(AttributeTargets.Method)]
+	public class Command : Attribute {
+	}
+
+	[AttributeUsage(AttributeTargets.Method)]
+	public class NeedsConnection : Attribute {
+	}
+
+	[AttributeUsage(AttributeTargets.Method)]
+	public class CommandDescription : Attribute {
+		string _description;
+
+		public CommandDescription (string description) {
+			_description = description;
+		}
+
+		public string Description {
+			get { return _description; }
 		}
 	}
 }

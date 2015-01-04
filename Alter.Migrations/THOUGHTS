@@ -1,16 +1,12 @@
 TODO
-Phase 1b - Command-line front-end
-Move tests around
-Delete copied config file on program exiting
-Use annotations instead of dictionary in controller for methods
-
 Phase 1c - Public release
-Rework README's
-Create a web site
+Fix millisecond bug
 Create nuget package
 
 Phase 2a - Generisizing - Open Source
-Add logic to check if for the current RDBMS DDL is transactional
+Create a web site
+Add feature to mark database as initialized
+Add logic to check whether the current RDBMS DDL is transactional
 Add MySQL adapter
 Add SQLite adapter
 Bump version to 0.2
@@ -20,26 +16,34 @@ Add MS SQL adapter
 Add Oracle adapter
 Bump version to 0.3
 
-Phase 3 - Powertools
+Phase 3 - Cleanup
+Remove all technical debt
 Add logging throughout the tool
 Figure out how to do environment-specific migrations
-Automatically create diff migrations
-Check diff migrations for equivalence
+
+Phase 3 - Powertools (each is its own epic)
 Database baseline / snapshots
 Automatic database engine conversions (enable schema migrations to MySQL from PG or vice-versa)
 Research fully all the main database engines and add specific object manipulations for them
+Automatically create diff migrations
+Check diff migrations for equivalence
+Validate that data will work with migrations
+Create in-memory SQL database to check work
 
 TECHNICAL BACKLOG
 Text messages from server don't get returned
 Schema migrations need to be copied to bin folder
 Lazily load text file SQL since we don't need the SQL at first, only the name
 SchemaMigration folder has a trailing slash
-Logging needs to be worked into the migration library
 
 POSSIBILITIES
 Combine Entity framework connection string
 
 DONE
+Rework README's
+Use annotations instead of dictionary in controller for methods
+Delete copied config file on program exiting
+Move tests around
 Write tests for command line
 Create generic ADO.NET adapter
 Allow front-end to take .config files
