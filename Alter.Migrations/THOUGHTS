@@ -1,10 +1,8 @@
 TODO
 Phase 1c - Public release
 Fix millisecond bug
-Create nuget package
 
 Phase 2a - Generisizing - Open Source
-Create a web site
 Add feature to mark database as initialized
 Add logic to check whether the current RDBMS DDL is transactional
 Add MySQL adapter
@@ -17,6 +15,7 @@ Add Oracle adapter
 Bump version to 0.3
 
 Phase 3 - Cleanup
+Create a web site
 Remove all technical debt
 Add logging throughout the tool
 Figure out how to do environment-specific migrations
@@ -40,6 +39,7 @@ POSSIBILITIES
 Combine Entity framework connection string
 
 DONE
+Create nuget packages
 Rework README's
 Use annotations instead of dictionary in controller for methods
 Delete copied config file on program exiting

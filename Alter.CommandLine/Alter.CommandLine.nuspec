@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Alter.CommandLine</id>
+        <version>0.1.2.1</version>
+        <title>Alter.CommandLine</title>
+        <authors>Noel Herrick</authors>
+        <projectUrl>https://github.com/noelherrick/Alter</projectUrl>
+        <licenseUrl>https://github.com/noelherrick/Alter/blob/master/LICENSE</licenseUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>This is command line for Alter, a tool for managing schema changes to a RDBM that are part of app development. Its two main goals are: keep database schema changes in sync with application code changes and provide a way to deploy changes to all environments in the same manner. </description>
+        <copyright>2014-2015 Noel Herrick</copyright>
+        <language>en-US</language>
+        <dependencies>
+			<dependency id="CommandLineParser" version="1.9.71" />
+		</dependencies>
+    </metadata>
+    <files>
+        <file src="bin/Debug/alter.exe" target="tools\net45\alter.exe" />
+        <file src="bin/Debug/Alter.Migrations.dll" target="lib\net45\alter.exe" />
+    </files>
+</package>

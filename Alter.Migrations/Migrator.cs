@@ -34,6 +34,7 @@ namespace Alter.Migrations
 		public static readonly string ALTER_API_VERSION = "0.1.1";
 		private readonly string UNINITIALIZED_VERSION_ID = "0";
 		private DatabaseAdapter db;
+		private static long lastId = 0;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="Alter.Migrations.Migrator"/> class.
@@ -55,6 +56,12 @@ namespace Alter.Migrations
 		public Migrator ( ConnectionProperties properties)
 			: this(GetAdapter(properties)) {
 
+		}
+
+		public static long ToUnixTime(DateTime date)
+		{
+			var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+			return Convert.ToInt64((date - epoch).TotalSeconds);
 		}
 
 		private static DatabaseAdapter GetAdapter (ConnectionProperties properties) {
@@ -166,6 +173,7 @@ namespace Alter.Migrations
 		/// <param name="sql">The SQL to perform the migration (Optional).</param>
 		public string AddSqlMigration (string description, string sql = "", MigrationType type = MigrationType.INCREMENTAL)
 		{
+			//long millis = ToUnixTime(DateTime.Now);
 			long millis = DateTime.Now.Ticks;
 
 			var tag = "";
